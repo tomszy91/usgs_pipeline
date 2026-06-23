@@ -1,5 +1,8 @@
 # usgs-pipeline
 
+[![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![Fetch USGS earthquakes](https://github.com/tomszy91/usgs_pipeline/actions/workflows/daily_fetch.yml/badge.svg?branch=main)](https://github.com/tomszy91/usgs_pipeline/actions/workflows/daily_fetch.yml)
+
 Daily pull from the USGS earthquake feed (magnitude >= 3.0) into a BigQuery
 landing table, via GitHub Actions. Transformation and deduplication logic
 lives in dbt downstream, not here.
