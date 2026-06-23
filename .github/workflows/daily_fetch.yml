@@ -1,0 +1,32 @@
+name: Fetch USGS earthquakes
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # 06:00 UTC daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Write GCP credentials
+        run: echo "${{ secrets.GCP_SA_KEY_B64 }}" | base64 -d > /tmp/gcp-key.json
+
+      - name: Fetch and load
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: /tmp/gcp-key.json
+          BQ_PROJECT: ${{ secrets.BQ_PROJECT }}
+          BQ_DATASET: ${{ secrets.BQ_DATASET }}
+        run: python scripts/fetch_earthquakes.py
