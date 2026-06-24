@@ -17,13 +17,15 @@ import json
 import logging
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 import requests
 from google.cloud import bigquery
 
-USGS_FEED_URL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson"
+START_DATE_RAW = datetime.now(timezone.utc) - timedelta(days=1)
+START_DATE = START_DATE_RAW.strftime("%Y-%m-%d") + "T06:00:00"
 MIN_MAGNITUDE = 3.0
+USGS_FEED_URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={START_DATE}&minmagnitude={MIN_MAGNITUDE}"
 
 BQ_PROJECT = os.environ["BQ_PROJECT"]
 BQ_DATASET = os.environ["BQ_DATASET"]
