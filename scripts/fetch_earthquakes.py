@@ -25,7 +25,7 @@ from google.cloud import bigquery
 START_DATE_RAW = datetime.now(timezone.utc) - timedelta(days=1)
 START_DATE = START_DATE_RAW.strftime("%Y-%m-%d") + "T06:00:00"
 MIN_MAGNITUDE = 3.0
-USGS_FEED_URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={START_DATE}&minmagnitude={MIN_MAGNITUDE}"
+USGS_FEED_URL = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&updatedafter={START_DATE}&minmagnitude={MIN_MAGNITUDE}"
 
 BQ_PROJECT = os.environ["BQ_PROJECT"]
 BQ_DATASET = os.environ["BQ_DATASET"]
